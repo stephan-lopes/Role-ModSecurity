@@ -1,5 +1,5 @@
 ---
 - name: atualiza a versão do modsecurity
   package:
-    name: modsecurity
+    name: mod_security
     state: latest
