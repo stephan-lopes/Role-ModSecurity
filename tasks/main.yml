@@ -3,7 +3,7 @@
   when: state == "present"
 
 - include_tasks: ./update.yml
-  when: state == "updated"
+  when: state == "updated" or state == "latest"
 
 - include_tasks: ./remove.yml
   when: state == "absent"
