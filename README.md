@@ -1,40 +1,43 @@
 Mod Security
 =========
 
-Um instalador simple do Mod Security
+Um instalador simple do ModSecurity
 
-Requirements
+Requisitos
 ------------
 
+- Servidor HTTPD instalado nos Hosts
 - Python >= 3.6
 - Centos 7
 - Ansible >= 2.0
 
-Role Variables
+Variáveis da Role
 --------------
 
 É possível selecionar que versão do coreruleset utilizar usando a variável `coreruleset_version`
 
-Dependencies
+Dependências
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Nenhuma
 
-Example Playbook
+Playbook de Exemplo
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```yaml
+---
+- host: all
+  roles:
+    - role: stephan_lopes.mod_security
+      coreruleset_version: 3.3.0
+```
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
+Licença
 -------
 
 BSD
 
-Author Information
+Informações do Autor
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+[Site](https://stephan-lopes.github.io)
