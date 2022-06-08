@@ -1,0 +1,46 @@
+---
+# tasks file for mod_security
+
+- name: instalação do mod_security via yum
+  package:
+    name:
+      - mod_security
+    state: present
+
+- name: descompacta coreruleset-{{ coreruleset_version }} no diretório do apache 
+  unarchive:
+    src: "https://github.com/coreruleset/coreruleset/archive/refs/tags/v{{ coreruleset_version }}.tar.gz"
+    dest: "{{ coreruleset_root_path }}"
+    remote_src: true
+
+- name: listando arquivos de exemplo
+  find:
+    path: "{{ coreruleset_root_path }}"
+    patterns: "*.example"
+    recurse: true
+  register: example_files
+
+- name: copia arquivos de configuração de exemplo
+  copy: 
+    remote_src: true
+    src: "{{ item.path }}"
+    dest: "{{ item.path.split('.example') | first }}"
+  with_items:
+    - "{{ example_files.files }}"
+
+- name: remove arquivos de exemplo
+  file: 
+    path: "{{ item.path }}"
+    state: absent
+  with_items:
+    - "{{ example_files.files }}"
+
+- name: adicionando os arquivos de configuração do coreruleset no apache.conf
+  lineinfile:
+    path: "{{ httpd_conf }}"
+    line: "Include {{ coreruleset_root_path }}coreruleset-{{coreruleset_version}}/{{item}}"
+  with_items:
+    - "{{coreruleset_setup_file}}"
+    - "{{coreruleset_rules_path}}/*.conf"
+  notify:
+    - reinicia o serviço do apache
