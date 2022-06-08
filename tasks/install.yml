@@ -10,12 +10,12 @@
 - name: descompacta coreruleset-{{ coreruleset_version }} no diretório do apache 
   unarchive:
     src: "https://github.com/coreruleset/coreruleset/archive/refs/tags/v{{ coreruleset_version }}.tar.gz"
-    dest: "{{ coreruleset_root_path }}"
+    dest: "{{ coreruleset_root_path }}/"
     remote_src: true
 
 - name: listando arquivos de exemplo
   find:
-    path: "{{ coreruleset_root_path }}"
+    path: "{{ coreruleset_root_path }}/"
     patterns: "*.example"
     recurse: true
   register: example_files
@@ -38,7 +38,7 @@
 - name: adicionando os arquivos de configuração do coreruleset no apache.conf
   lineinfile:
     path: "{{ httpd_conf }}"
-    line: "Include {{ coreruleset_root_path }}coreruleset-{{coreruleset_version}}/{{item}}"
+    line: "Include {{ coreruleset_root_path }}/coreruleset-{{coreruleset_version}}/{{item}}"
   with_items:
     - "{{coreruleset_setup_file}}"
     - "{{coreruleset_rules_path}}/*.conf"
