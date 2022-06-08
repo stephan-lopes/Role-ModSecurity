@@ -1,0 +1,5 @@
+---
+httpd_conf: "/etc/httpd/conf/httpd.conf" 
+coreruleset_root_path: "/etc/httpd/modsecurity.d/"
+coreruleset_setup_file: "crs-setup.conf"
+coreruleset_rules_path: "rules"
