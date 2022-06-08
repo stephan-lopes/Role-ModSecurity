@@ -5,7 +5,7 @@
   package:
     name:
       - mod_security
-    state: present
+    state: "{{ state }}" 
 
 - name: descompacta coreruleset-{{ coreruleset_version }} no diretório do apache 
   unarchive:
