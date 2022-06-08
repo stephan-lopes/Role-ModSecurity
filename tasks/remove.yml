@@ -2,7 +2,7 @@
 - name: remove o corerulesets-{{ corerulesets_version }} do {{ httpd_conf }}
   lineinfile:
     path: "{{ httpd_conf }}"
-    regexp: "^Include {{ coreruleset_root_path }}coreruleset-"
+    regexp: "^Include {{ coreruleset_root_path }}*"
     state: absent
   with_items:
     - "{{coreruleset_setup_file}}"
