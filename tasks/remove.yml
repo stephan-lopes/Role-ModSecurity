@@ -4,9 +4,6 @@
     path: "{{ httpd_conf }}"
     regexp: "^Include {{ coreruleset_root_path }}*"
     state: absent
-  with_items:
-    - "{{coreruleset_setup_file}}"
-    - "{{coreruleset_rules_path}}/*.conf"
   notify:
     - reinicia o serviço do apache
 
