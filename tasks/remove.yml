@@ -1,0 +1,21 @@
+---
+- name: remove o corerulesets-{{ corerulesets_version }} do {{ httpd_conf }}
+  lineinfile:
+    path: "{{ httpd_conf }}"
+    line: "Include {{ coreruleset_root_path }}coreruleset-{{coreruleset_version}}/{{item}}"
+    state: absent
+  with_items:
+    - "{{coreruleset_setup_file}}"
+    - "{{coreruleset_rules_path}}/*.conf"
+  notify:
+    - reinicia o serviço do apache
+
+- name: remove o diretório do coreruleset-{{ coreruleset_version  }}
+  file:
+    path: "{{ coreruleset_root_path }}/coreruleset-{{ coreruleset_version }}"
+    state: absent
+
+- name: remove o pacote do modsecurity
+  package:
+    name: mod_security
+    state: absent

@@ -1,0 +1,5 @@
+---
+- name: atualiza a versão do modsecurity
+  package:
+    name: modsecurity
+    state: updated
