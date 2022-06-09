@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  gather_facts: false 
+  gather_facts: false
   become: true
   roles:
     - role: stephan_lopes.mod_security
