@@ -1,6 +1,6 @@
 ---
 - name: remove o corerulesets-{{ corerulesets_version }} do {{ httpd_conf }}
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ httpd_conf }}"
     regexp: "^Include {{ coreruleset_root_path }}*"
     state: absent
@@ -8,11 +8,11 @@
     - reinicia o serviço do apache
 
 - name: remove o diretório do coreruleset-{{ coreruleset_version  }}
-  file:
+  ansible.builtin.file:
     path: "{{ coreruleset_root_path }}/coreruleset-{{ coreruleset_version }}"
     state: absent
 
 - name: remove o pacote do modsecurity
-  package:
+  ansible.builtin.package:
     name: mod_security
     state: absent

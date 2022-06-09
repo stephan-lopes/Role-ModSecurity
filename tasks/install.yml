@@ -2,45 +2,46 @@
 # tasks file for mod_security
 
 - name: instalação do mod_security via yum
-  package:
+  ansible.builtin.package:
     name:
       - mod_security
-    state: "{{ state }}" 
+    state: "{{ state }}"
 
-- name: descompacta coreruleset-{{ coreruleset_version }} no diretório do apache 
-  unarchive:
+- name: descompacta coreruleset-{{ coreruleset_version }} no diretório do apache
+  ansible.builtin.unarchive:
     src: "https://github.com/coreruleset/coreruleset/archive/refs/tags/v{{ coreruleset_version }}.tar.gz"
     dest: "{{ coreruleset_root_path }}/"
     remote_src: true
 
 - name: listando arquivos de exemplo
-  find:
+  ansible.builtin.find:
     path: "{{ coreruleset_root_path }}/"
     patterns: "*.example"
     recurse: true
   register: example_files
 
 - name: copia arquivos de configuração de exemplo
-  copy: 
+  ansible.builtin.copy:
     remote_src: true
     src: "{{ item.path }}"
     dest: "{{ item.path.split('.example') | first }}"
+    mode: '0644'
   with_items:
     - "{{ example_files.files }}"
 
 - name: remove arquivos de exemplo
-  file: 
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
   with_items:
     - "{{ example_files.files }}"
 
 - name: adicionando os arquivos de configuração do coreruleset no apache.conf
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ httpd_conf }}"
-    line: "Include {{ coreruleset_root_path }}/coreruleset-{{coreruleset_version}}/{{item}}"
+    line: "Include {{ coreruleset_root_path }}/coreruleset-{{ coreruleset_version }}/{{ item }}"
   with_items:
-    - "{{coreruleset_setup_file}}"
-    - "{{coreruleset_rules_path}}/*.conf"
+    - "{{ coreruleset_setup_file }}"
+    - "{{ coreruleset_rules_path }}/*.conf"
   notify:
     - reinicia o serviço do apache

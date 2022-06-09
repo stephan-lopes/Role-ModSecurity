@@ -1,5 +1,5 @@
 ---
 - name: reinicia o serviço do apache
-  systemd: 
+  ansible.builtin.systemd:
     name: httpd
     state: restarted

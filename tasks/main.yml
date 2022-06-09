@@ -2,6 +2,5 @@
 - include_tasks: ./install.yml
   when: state == "present" or state == "latest"
 
-
 - include_tasks: ./remove.yml
   when: state == "absent"

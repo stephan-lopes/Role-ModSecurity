@@ -1,5 +1,15 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: all
+  gather_facts: false 
+  become: true
   roles:
-    - mod_security
+    - role: stephan_lopes.mod_security
+      coreruleset_version: 3.3.0
+      state: present
+
+    - role: stephan_lopes.mod_security
+      coreruleset_version: 3.3.0
+      state: latest
+
+    - role: stephan_lopes.mod_security
+      state: absent
